@@ -1,0 +1,218 @@
+{
+  "schema": "chasm-arcade-browser/1",
+  "created_utc": "2026-11-17T22:51:29.584Z",
+  "browser": "153.0.8010.12",
+  "renderer": "SwiftShader (software WebGL2 via ANGLE)",
+  "targets": [
+    {
+      "url": "http://localhost/x3d.gamelab/cavern/",
+      "checks": [
+        {
+          "name": "flight starts and simulated time advances",
+          "pass": true,
+          "detail": {
+            "state": "flying",
+            "time": 0.4000000000000001,
+            "fx": true,
+            "arcade": true
+          }
+        },
+        {
+          "name": "arcade world on by default with FX layer",
+          "pass": true,
+          "detail": {
+            "state": "flying",
+            "time": 0.4000000000000001,
+            "fx": true,
+            "arcade": true
+          }
+        },
+        {
+          "name": "grade pass sits between bloom and output",
+          "pass": true,
+          "detail": [
+            "RenderPass",
+            "UnrealBloomPass",
+            "ShaderPass",
+            "OutputPass"
+          ]
+        },
+        {
+          "name": "holding Shift engages focus and slows simulated time",
+          "pass": true,
+          "detail": {
+            "on": true,
+            "scale": 0.32000688846364705,
+            "meter": 0.16619759999999995
+          }
+        },
+        {
+          "name": "gate events spawn particles and score through the chain",
+          "pass": true,
+          "detail": {
+            "before": 0,
+            "after": 360,
+            "types": {
+              "gate": 4
+            },
+            "z": 700.1285132919089,
+            "score": 5390,
+            "mult": 2
+          }
+        },
+        {
+          "name": "three cameras render with draw calls",
+          "pass": true,
+          "detail": [
+            {
+              "camera": "chase",
+              "drawCalls": 117,
+              "triangles": 37142
+            },
+            {
+              "camera": "helmet",
+              "drawCalls": 78,
+              "triangles": 32159
+            },
+            {
+              "camera": "orbit",
+              "drawCalls": 116,
+              "triangles": 35726
+            }
+          ]
+        },
+        {
+          "name": "zero page errors and HTTP failures",
+          "pass": true,
+          "detail": []
+        }
+      ]
+    },
+    {
+      "url": "http://localhost/x3d.gamelab/cavern/releases/2.0.0/",
+      "checks": [
+        {
+          "name": "flight starts and simulated time advances",
+          "pass": true,
+          "detail": {
+            "state": "flying",
+            "time": 0.4000000000000001,
+            "fx": true,
+            "arcade": true
+          }
+        },
+        {
+          "name": "arcade world on by default with FX layer",
+          "pass": true,
+          "detail": {
+            "state": "flying",
+            "time": 0.4000000000000001,
+            "fx": true,
+            "arcade": true
+          }
+        },
+        {
+          "name": "grade pass sits between bloom and output",
+          "pass": true,
+          "detail": [
+            "RenderPass",
+            "UnrealBloomPass",
+            "ShaderPass",
+            "OutputPass"
+          ]
+        },
+        {
+          "name": "holding Shift engages focus and slows simulated time",
+          "pass": true,
+          "detail": {
+            "on": true,
+            "scale": 0.32001342136817984,
+            "meter": 0.18714319999999957
+          }
+        },
+        {
+          "name": "gate events spawn particles and score through the chain",
+          "pass": true,
+          "detail": {
+            "before": 0,
+            "after": 360,
+            "types": {
+              "gate": 4
+            },
+            "z": 700.1285132919089,
+            "score": 5390,
+            "mult": 2
+          }
+        },
+        {
+          "name": "three cameras render with draw calls",
+          "pass": true,
+          "detail": [
+            {
+              "camera": "chase",
+              "drawCalls": 117,
+              "triangles": 37146
+            },
+            {
+              "camera": "helmet",
+              "drawCalls": 78,
+              "triangles": 32167
+            },
+            {
+              "camera": "orbit",
+              "drawCalls": 116,
+              "triangles": 35734
+            }
+          ]
+        },
+        {
+          "name": "zero page errors and HTTP failures",
+          "pass": true,
+          "detail": []
+        }
+      ]
+    },
+    {
+      "url": "http://localhost/x3d.gamelab/cavern/releases/1.0.0/",
+      "checks": [
+        {
+          "name": "flight starts and simulated time advances",
+          "pass": true,
+          "detail": {
+            "state": "flying",
+            "time": 0.6666666666666665,
+            "fx": false,
+            "arcade": false
+          }
+        },
+        {
+          "name": "zero page errors and HTTP failures",
+          "pass": true,
+          "detail": []
+        }
+      ]
+    },
+    {
+      "url": "file://<repo>/cavern/releases/2.0.0/index.html",
+      "checks": [
+        {
+          "name": "flight starts and simulated time advances",
+          "pass": true,
+          "detail": {
+            "state": "flying",
+            "time": 0.4000000000000001,
+            "fx": true,
+            "arcade": true
+          }
+        },
+        {
+          "name": "zero page errors and HTTP failures",
+          "pass": true,
+          "detail": []
+        }
+      ]
+    }
+  ],
+  "status": "pass",
+  "failures": 0
+}
