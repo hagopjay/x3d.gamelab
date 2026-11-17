@@ -1,0 +1,22 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+      - name: Node controls (12 suites)
+        run: npm test
+      - name: Build is reproducible
+        run: node build.mjs && git diff --exit-code index.html
+      - name: Browser smoke from a sub-folder (page + frozen release)
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:pages

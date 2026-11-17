@@ -1,0 +1,11 @@
+{
+  "schema": "floplab.release/1",
+  "edition": "Giggleworks Showtime",
+  "version": "0.3.0",
+  "head": "b0cecd2b123ea58eaffd79e3bc7cd69b7f48a95f",
+  "upstream_base": "be7c4816e41b04af1552a3f3bf8585fe2625057b",
+  "previous_edition": "c9d14e0bf9f411e7de0c78d2d283f9453c62c8a6",
+  "source": "Exact Git-tracked project files from final clean tree, plus release metadata. No node_modules or temporary QA files.",
+  "publication": "No remote branch or PR created; verified patches and complete PR draft supplied separately.",
+  "evidence": "VALIDATION.md and receipts/showtime-*.json; historical reports retain original identities."
+}
