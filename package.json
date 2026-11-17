@@ -14,7 +14,8 @@
     "export:levels": "node tools/export_levels.mjs",
     "test:pages": "node test/pages-smoke.mjs",
     "test:cavern": "node --test cavern/test/*.test.mjs",
-    "test:cavern:browser": "python3 cavern/test/browser.py"
+    "test:cavern:browser": "python3 cavern/test/browser.py",
+    "test:cavern:arcade-browser": "node cavern/test/arcade-browser.mjs"
   },
   "devDependencies": {
     "linkedom": "0.18.12",

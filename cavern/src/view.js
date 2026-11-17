@@ -4,6 +4,7 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import * as physics from './physics.js';
+import { ChasmFX } from './fx.js';
 
 // Presentation reads the flight model. It never changes its trajectory or score.
 const UP = new THREE.Vector3(0, 1, 0), Z = new THREE.Vector3(0, 0, 1);
@@ -64,6 +65,7 @@ export class CavernView {
     this.composer = new EffectComposer(this.renderer); this.composer.addPass(new RenderPass(this.scene, this.camera));
     this.bloom = new UnrealBloomPass(new THREE.Vector2(800, 500), .38, .48, 1.5); this.composer.addPass(this.bloom); this.composer.addPass(new OutputPass());
     this.setQuality('balanced'); this.resize();
+    this.fx = new ChasmFX(this);
   }
 
   setQuality(value) {
@@ -186,8 +188,8 @@ export class CavernView {
     // Tunnel exit is deliberately broad and luminous, visible from the final approach.
     const finishZ = physics.COURSE_LENGTH || 2400;
     if (end >= finishZ) {
-      const c = physics.course(finishZ + 25), disc = new THREE.Mesh(new THREE.CircleGeometry(45, 64), new THREE.MeshBasicMaterial({ color: 0xafffe4 }));
-      disc.position.set(c.x, c.y, finishZ + 25); disc.rotation.y = Math.PI; disc.userData.ownMat = true; this.tunnel.add(disc);
+      const c = physics.course(finishZ + 25), disc = new THREE.Mesh(new THREE.CircleGeometry(45, 64), this.fx?.exitDiscMat || new THREE.MeshBasicMaterial({ color: 0xafffe4 }));
+      disc.position.set(c.x, c.y, finishZ + 25); disc.rotation.y = Math.PI; disc.userData.ownMat = !this.fx?.exitDiscMat; this.tunnel.add(disc);
     }
     this.chunk = Math.floor(z / 72); this.lastTheme = this.theme;
   }
@@ -384,7 +386,7 @@ export class CavernView {
     const a = this.cameraReady ? 1 - Math.exp(-Math.min(dt, .1) * (this.cameraMode === 'helmet' ? 18 : 8)) : 1;
     this.camera.position.lerp(desired, a); this.camera.up.lerp(up, a).normalize();
     this.lookAt ||= look.clone(); this.lookAt.lerp(look, a); this.camera.lookAt(this.lookAt);
-    const fov = this.cameraMode === 'orbit' ? 52 : 62 + (this.reducedMotion ? 0 : clamp((speed - 25) * .15, 0, 7));
+    const fov = this.cameraMode === 'orbit' ? 52 : 62 + (this.reducedMotion ? 0 : clamp((speed - 25) * .15, 0, 7) + (this.fx ? this.fx.speedFx * 5 - this.fx.focus * 9 : 0));
     if (Math.abs(this.camera.fov - fov) > .03) { this.camera.fov = fov; this.camera.updateProjectionMatrix(); }
     this.cameraReady = true;
   }
@@ -415,8 +417,10 @@ export class CavernView {
     for (let j = 0; j < 2; j++) {
       const arr = this.trails[j].geometry.attributes.position, samples = this.trailSamples[j]; samples.forEach((p, i) => arr.setXYZ(i, p.x, p.y, p.z)); arr.needsUpdate = true; this.trails[j].geometry.setDrawRange(0, this.reducedMotion ? 0 : samples.length);
     }
+    this.fx?.update(sim, Math.min(dt, .05), this.camera);
     this.renderer.info.reset();
     if (this.quality === 'low') this.renderer.render(this.scene, this.camera); else this.composer.render();
+    this.fx?.restoreCamera(this.camera);
     this.frameStats = { drawCalls: this.renderer.info.render.calls, triangles: this.renderer.info.render.triangles,
       lines: this.renderer.info.render.lines, geometries: this.renderer.info.memory.geometries, textures: this.renderer.info.memory.textures,
       pixelRatio: this.renderer.getPixelRatio(), quality: this.quality, camera: this.cameraMode, bloom: this.quality !== 'low' };

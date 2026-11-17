@@ -1,5 +1,16 @@
 # CHASM · Wingsuit Observatory
 
+> **2.0 arcade layer.** Rock columns and neon light-bars you can shave for points,
+> thermal updrafts, 101 embers, a ×8 chain, **focus** bullet time (Shift / E /
+> pad A), medals, a ghost of your best run, gamepad, and a new FX layer (speed
+> blur and chromatic grade, headlamp, glowing veins, vapor ribbons, sparks,
+> shockwaves, neon scan pulses, a sky-lit cave mouth). Design, numbers and
+> evidence: [docs/ARCADE.md](docs/ARCADE.md); known gaps: [docs/FX-GAPS.md](docs/FX-GAPS.md).
+> Frozen builds: [releases/1.0.0/](releases/1.0.0/) (as delivered) and
+> [releases/2.0.0/](releases/2.0.0/), each one self-contained HTML.
+
+![CHASM 2.0 in the construct](docs/media/chasm2-construct.webp)
+
 A separate 3D GameLab experiment: an orange squirrel suit, an articulated pilot,
 2.4 km of descending natural and virtual cavern, fifteen gates, close encounters,
 and an inspectable aerodynamic model. It uses the repository's pinned Three.js

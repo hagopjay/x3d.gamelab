@@ -6,7 +6,7 @@ export const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
 export const COURSE_LENGTH = 2400;
 export const DEFAULTS = Object.freeze({mass:90,area:1.6,rho:1.225,g:9.80665,
   windSpeed:0,windDirection:90,gust:0,liftScale:1,dragScale:1,
-  compliance:0.000002,assistance:true});
+  compliance:0.000002,assistance:true,arcade:false});
 const add=(a,b)=>a.map((v,i)=>v+b[i]);
 const sub=(a,b)=>a.map((v,i)=>v-b[i]);
 const mul=(a,s)=>a.map(v=>v*s);
@@ -25,7 +25,61 @@ export const gates=Array.from({length:15},(_,i)=>{
   const z=120+i*155,c=course(z);
   return {x:c.x+Math.sin(i*.9)*8,y:c.y+Math.sin(i*.7)*5,z,radius:7,index:i};
 });
-export const obstacles=[];
+// ---------------------------------------------------------------------------
+// ARCADE LAYER (CHASM 2.0). Opt-in with params.arcade. A deterministic,
+// prescribed game world on top of the unchanged 1.0 flight model: rock
+// columns and construct light-bars (capsule colliders sharing the same contact
+// pipeline as the walls), thermal updrafts (prescribed wind, never thrust) and
+// collectible embers. Off by default, so the 1.0 model and its tests hold.
+export const COACH={reach:190,full:60,pitchGain:.05,yBias:0};
+export const EMBER_RADIUS=2.8;
+const h1=n=>{const v=Math.sin(n*127.1+311.7)*43758.5453123;return v-Math.floor(v);};
+const nearGate=z=>gates.some(g=>Math.abs(g.z-z)<30);
+export const obstacles=(()=>{
+  const out=[];let k=0;
+  for(let z=165;z<2330;z+=58){
+    k++;if(nearGate(z))continue;
+    const c=course(z),r1=h1(k*3.7),r2=h1(k*9.1),side=k%2?1:-1;
+    if(z>=905&&z<=1695){
+      // Construct light-bars span the passage above or below the flight line.
+      const dy=r1<.5?-(10.5+r2*2):(14.5+r2*3);
+      out.push({kind:'bar',a:[c.x-c.rx-4,c.y+dy,z],b:[c.x+c.rx+4,c.y+dy,z],r:1.1,index:out.length});
+    } else if(z>1790||z<860){
+      // Natural columns: most hug the walls; every fourth stands mid-passage.
+      const central=k%4===0,off=central?side*(r1*5):side*(19+r2*7),r=central?2.3+r1*.9:2+r2*1.6;
+      out.push({kind:'pillar',a:[c.x+off,c.y-c.ry-6,z],b:[c.x+off,c.y+c.ry+6,z],r,index:out.length});
+    }
+  }
+  return out;
+})();
+export const thermals=[260,560,1240,1520,1960,2200].map((z,i)=>{
+  const c=course(z),side=i%2?1:-1;return {x:c.x+side*(15+h1(i*5.3)*6),z,R:7.5,w:10+h1(i)*3,index:i};
+});
+export const embers=(()=>{
+  const out=[];
+  // Risky lines: beside columns, near light-bars, inside thermals, near walls.
+  for(const o of obstacles){
+    const c=course(o.a[2]);
+    if(o.kind==='pillar'){const dir=Math.sign(c.x-o.a[0])||1;
+      for(let j=0;j<3;j++)out.push([o.a[0]+dir*(o.r+2.6),c.y+1+j*1.6,o.a[2]-6+j*6]);}
+    else {const y=o.a[1]+(o.a[1]>c.y?-3.2:3.2);for(let j=-1;j<=1;j++)out.push([c.x+j*7,y,o.a[2]]);}
+  }
+  for(const t of thermals){const c=course(t.z);for(let j=0;j<4;j++)out.push([t.x,c.y-2+j*4,t.z+(j-1.5)*3]);}
+  for(let i=0;i<24;i++){const z=140+i*92;if(nearGate(z))continue;const c=course(z),a=i*2.1+.6;
+    out.push([c.x+Math.cos(a)*c.rx*.62,c.y+Math.sin(a)*c.ry*.62,z]);}
+  return out.map((p,index)=>({p,index}));
+})();
+function capsule(p,o){
+  const ab=sub(o.b,o.a),t=clamp(dot(sub(p,o.a),ab)/dot(ab,ab),0,1),q=add(o.a,mul(ab,t)),d=sub(p,q),l=len(d);
+  return {distance:l-o.r,normal:l>1e-9?mul(d,1/l):[0,1,0],obstacle:o};
+}
+// Wall field combined with exact capsule distances (min of the two).
+export function arcadeBoundary(p){
+  const best=caveBoundary(p);let out=best;
+  for(const o of obstacles){if(Math.abs(p[2]-o.a[2])>o.r+6)continue;const b=capsule(p,o);if(b.distance<out.distance)out={...b,course:best.course};}
+  return out;
+}
+
 
 const smooth=(a,b,x)=>{const t=clamp((x-a)/(b-a),0,1);return t*t*(3-2*t);};
 function naturalWeight(z) {
@@ -77,8 +131,11 @@ export function windAt(p,t,params) {
   const direction=(params.windDirection??0)*Math.PI/180;
   const gust=params.gust??0,s=params.windSpeed??0;
   // Smooth prescribed gust field; deliberately not CFD or a turbulence spectrum.
+  let lift=0;
+  if(params.arcade)for(const th of thermals){const dz=p[2]-th.z;if(Math.abs(dz)>th.R*3)continue;
+    const dx=p[0]-th.x;lift+=th.w*Math.exp(-(dx*dx+dz*dz)/(th.R*th.R))*(1+.2*Math.sin(t*1.3+th.index));}
   return [s*Math.sin(direction)+gust*Math.sin(t*.71+p[2]*.013),
-    gust*.32*Math.sin(t*.93+p[0]*.11),
+    gust*.32*Math.sin(t*.93+p[0]*.11)+lift,
     s*Math.cos(direction)+gust*.6*Math.sin(t*.43+p[2]*.007)];
 }
 
@@ -139,12 +196,14 @@ export class FlightSim {
     this.time=0;this.score=0;this.gatesPassed=0;this.nearMisses=0;this.impacts=0;
     this.state='ready';this.events=[];this._gateResults=new Set();this.passedGates=new Set();this.gateOutcomes=new Map();
     this._nearCooldown=0;this._impactCooldown=0;this.lastImpact=0;
+    this.chain=0;this.multiplier=1;this.comboTimer=0;this.bestMultiplier=1;this.embersTaken=new Set();this.flow=0;this.flowPoints=0;this._flowAcc=0;this.thermalTime=0;this.inThermal=false;
     const wind=windAt(this.p,0,this.params),aero=aeroForces(this.v,wind,this.params,this);
     this.telemetry={airspeed:aero.airspeed,groundspeed:Math.hypot(this.v[0],this.v[2]),sink:14.1,
       q:aero.q,lift:aero.lift,drag:aero.drag,
-      clearance:Math.min(...this.particles.map(j=>caveBoundary(j.p).distance-j.radius)),
+      clearance:Math.min(...this.particles.map(j=>this._boundary(j.p).distance-j.radius)),
       load:len(aero.force)/(this.params.mass*this.params.g||1),wind,ld:aero.ld,peakImpact:0};return this;
   }
+  _boundary(p){return this.params.arcade?arcadeBoundary(p):caveBoundary(p);}
   _emit(event){this.events.push({...event,time:this.time});if(this.events.length>64)this.events.shift();}
   _com() {
     this.p=[0,0,0];this.v=[0,0,0];let total=0;
@@ -157,18 +216,18 @@ export class FlightSim {
     const n=Math.max(1,Math.ceil(len(sub(j.p,previous))/.20));let prior=[...previous],hit=null;
     for(let i=1;i<=n;i++){
       const sample=mix(previous,j.p,i/n);
-      if(caveBoundary(sample).distance<j.radius){
+      if(this._boundary(sample).distance<j.radius){
         let lo=prior,hi=sample;
-        if(caveBoundary(lo).distance>=j.radius)for(let k=0;k<10;k++){
-          const mid=mix(lo,hi,.5);if(caveBoundary(mid).distance>=j.radius)lo=mid;else hi=mid;
+        if(this._boundary(lo).distance>=j.radius)for(let k=0;k<10;k++){
+          const mid=mix(lo,hi,.5);if(this._boundary(mid).distance>=j.radius)lo=mid;else hi=mid;
         }
-        hit=caveBoundary(hi);j.p=[...lo];break;
+        hit=this._boundary(hi);j.p=[...lo];break;
       }prior=sample;
     }
-    let boundary=caveBoundary(j.p);
+    let boundary=this._boundary(j.p);
     if(boundary.distance<j.radius){
       for(let k=0;k<5&&boundary.distance<j.radius;k++){
-        j.p=add(j.p,mul(boundary.normal,(j.radius-boundary.distance)*1.3+.0001));boundary=caveBoundary(j.p);
+        j.p=add(j.p,mul(boundary.normal,(j.radius-boundary.distance)*1.3+.0001));boundary=this._boundary(j.p);
       }
       hit=boundary;
     }
@@ -184,6 +243,25 @@ export class FlightSim {
     if(tangentSpeed>1e-9)j.v=sub(j.v,mul(tangent,Math.min(1,.25*normalImpulse/tangentSpeed)));
     return impact;
   }
+  // Arcade coach: line up the next gate's offset and side-step mid-passage
+  // columns. Still only bank/pitch commands; it never moves the body directly.
+  _coachTarget(){
+    const z=this.p[2],t=course(z+75);let ox=0,oy=0;
+    const g=gates.find(g=>!this._gateResults.has(g.index)&&g.z>z);
+    if(g&&g.z-z<COACH.reach){const c=course(g.z),w=clamp(1-(g.z-z-COACH.full)/(COACH.reach-COACH.full),0,1);ox=(g.x-c.x)*w;oy=(g.y-c.y)*w;}
+    let x=t.x+ox;
+    for(const o of obstacles){if(o.kind!=='pillar'||o.a[2]<z+2||o.a[2]>z+150)continue;
+      const lane=course(o.a[2]).x+ox,gap=o.r+8.5;if(Math.abs(lane-o.a[0])<gap)x=o.a[0]+(lane>=o.a[0]?1:-1)*(gap+1);}
+    return {x,y:t.y+oy+COACH.yBias};
+  }
+  _award(base,kind){
+    // Combo: every gate, ember and close encounter feeds a chain; the chain
+    // sets a multiplier (x1..x8) that decays after 5 s without a new feat.
+    if(!this.params.arcade){this.score+=base;return base;}
+    this.chain++;this.comboTimer=5;this.multiplier=Math.min(8,1+Math.floor(this.chain/3));
+    this.bestMultiplier=Math.max(this.bestMultiplier,this.multiplier);
+    const pts=Math.round(base*this.multiplier);this.score+=pts;return pts;
+  }
   _tick(h,input) {
     const oldCOM=[...this.p];this.time+=h;
     const wind=windAt(this.p,this.time,this.params),relative=sub(this.v,wind);
@@ -192,9 +270,10 @@ export class FlightSim {
     if(this.params.assistance&&!input.limp){
       // Explicit assist applies steering only: it tilts lift, never moves COM.
       const target=course(this.p[2]+75);
+      if(this.params.arcade){const t=this._coachTarget();target.x=t.x;target.y=t.y;}
       const desiredVX=clamp((target.x-this.p[0])*.7,-14,14);
       if(Math.abs(bankCommand)<=.05)bankCommand=clamp((desiredVX-this.v[0])*.09,-1,1);
-      if(Math.abs(pitchCommand)<=.05)pitchCommand=clamp(((target.y-this.p[1])+30)*.025,-1,1);
+      if(Math.abs(pitchCommand)<=.05)pitchCommand=clamp(((target.y-this.p[1])+30)*(this.params.arcade?COACH.pitchGain:.025),-1,1);
     }
     const desiredBank=bankCommand*1.05;
     this.bank+=(desiredBank-this.bank)*(1-Math.exp(-h*4));
@@ -232,7 +311,7 @@ export class FlightSim {
         a.p=add(a.p,mul(normal,a.invMass*dl));b.p=sub(b.p,mul(normal,b.invMass*dl));
       }
       // Correct positions without applying restitution repeatedly in iterations.
-      for(const j of this.particles){const boundary=caveBoundary(j.p);if(boundary.distance<j.radius)
+      for(const j of this.particles){const boundary=this._boundary(j.p);if(boundary.distance<j.radius)
         j.p=add(j.p,mul(boundary.normal,(j.radius-boundary.distance)*1.3+.0001));}
     }
     for(const j of this.particles){
@@ -254,6 +333,7 @@ export class FlightSim {
     this._impactCooldown=Math.max(0,this._impactCooldown-h);
     if(impact>2&&this._impactCooldown===0){
       this.impacts++;this.score=Math.max(0,this.score-Math.round(impact*8));this._impactCooldown=.7;
+      if(this.params.arcade&&this.chain){this._emit({type:'combo-break',multiplier:this.multiplier});this.chain=0;this.multiplier=1;this.comboTimer=0;}
       this._emit({type:'impact',speed:impact});
       if(impact>32){this.state='crashed';this._emit({type:'crash',speed:impact});}
     }
@@ -264,18 +344,29 @@ export class FlightSim {
       this._gateResults.add(gate.index);
       const error=Math.hypot(crossing[0]-gate.x,crossing[1]-gate.y);
       if(error<gate.radius-.3){this.gatesPassed++;this.passedGates.add(gate.index);this.gateOutcomes.set(gate.index,'gate');
-        const points=500+Math.round((1-error/gate.radius)*500);
-        this.score+=points;this._emit({type:'gate',index:gate.index,points,error});}
+        const points=this._award(500+Math.round((1-error/gate.radius)*500),'gate');
+        this._emit({type:'gate',index:gate.index,points,error,multiplier:this.multiplier,at:crossing});}
       else {this.gateOutcomes.set(gate.index,'miss');this._emit({type:'miss',index:gate.index,error});}
     }
-    const clearance=Math.min(...this.particles.map(j=>caveBoundary(j.p).distance-j.radius));
+    let clearance=Infinity,closest=null;for(const j of this.particles){const b=this._boundary(j.p),d=b.distance-j.radius;if(d<clearance){clearance=d;closest={p:[...j.p],normal:b.normal,distance:d,obstacle:b.obstacle?.kind||null};}}
     this._nearCooldown=Math.max(0,this._nearCooldown-h);
-    if(clearance>.2&&clearance<2.5&&this._nearCooldown===0){this.nearMisses++;this.score+=100;
-      this._nearCooldown=1.8;this._emit({type:'near',clearance});}
+    if(clearance>.2&&clearance<2.5&&this._nearCooldown===0){this.nearMisses++;const points=this._award(100,'near');
+      this._nearCooldown=1.8;this._emit({type:'near',clearance,points,obstacle:closest?.obstacle});}
+    if(this.params.arcade){
+      // Skimming: continuous points for holding a line within 3 m of rock.
+      if(clearance>.15&&clearance<3){this.flow+=h;this._flowAcc+=(3-clearance)*h*90*this.multiplier;
+        const whole=Math.floor(this._flowAcc);if(whole>0){this._flowAcc-=whole;this.flowPoints+=whole;this.score+=whole;}}
+      else if(this.flow>0){if(this.flow>.6)this._emit({type:'skim',seconds:this.flow,points:this.flowPoints});this.flow=0;this.flowPoints=0;this._flowAcc=0;}
+      for(const e of embers){if(this.embersTaken.has(e.index)||Math.abs(e.p[2]-this.p[2])>3)continue;
+        if(len(sub(e.p,this.p))<EMBER_RADIUS){this.embersTaken.add(e.index);const points=this._award(150,'ember');this._emit({type:'ember',index:e.index,points,p:e.p});}}
+      const up=windAt(this.p,this.time,this.params)[1];const was=this.inThermal;this.inThermal=up>3;
+      if(this.inThermal){this.thermalTime+=h;if(!was)this._emit({type:'thermal',lift:up});}
+      if(this.comboTimer>0){this.comboTimer-=h;if(this.comboTimer<=0&&this.chain){this._emit({type:'combo-end',multiplier:this.multiplier});this.chain=0;this.multiplier=1;}}
+    }
     this.telemetry={airspeed:aero.airspeed,groundspeed:Math.hypot(this.v[0],this.v[2]),sink:-this.v[1],
       q:aero.q,lift:aero.lift,drag:aero.drag,clearance,load:len(aero.force)/(this.params.mass*this.params.g||1),
-      wind,ld:aero.ld,alpha:aero.alpha,assistance:!!this.params.assistance,peakImpact:this.lastImpact};
-    if(this.p[2]>=COURSE_LENGTH){this.state='finished';this.score+=2000;this._emit({type:'finish'});}
+      wind,ld:aero.ld,alpha:aero.alpha,assistance:!!this.params.assistance,peakImpact:this.lastImpact,closest};
+    if(this.p[2]>=COURSE_LENGTH){this.state='finished';const bonus=this.params.arcade?2000+Math.max(0,Math.round((80-this.time)*60)):2000;this.score+=bonus;this._emit({type:'finish',bonus});}
   }
   step(dt,input={}) {
     if(this.state!=='flying'||!(dt>0)||!Number.isFinite(dt))return;

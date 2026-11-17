@@ -26,9 +26,9 @@
     <div class="eyebrow"><span>01 / THE THRESHOLD</span><span class="line"></span><span>2.4 KM OF POSSIBILITY</span></div>
     <h1>THE ART<br>OF <em>FALLING.</em></h1>
     <p class="intro-copy">A human, a little fabric, and a cathedral of stone.<br>Find your line through the real and the impossible.</p>
-    <div class="feature-row"><span>3D RAGDOLL</span><span>AIR-RELATIVE FLIGHT</span><span>LIVE PHYSICS</span></div>
+    <div class="feature-row"><span>3D RAGDOLL</span><span>AIR-RELATIVE FLIGHT</span><span>THERMALS · EMBERS · CHAINS</span><span>FOCUS TIME</span></div>
     <div class="launch-row"><button class="primary" id="launch">Begin descent <span>↘</span></button><button id="tour">Watch guided flight</button></div>
-    <p class="intro-note">A / D bank · W dive · S or Space flare · F go limp<br>Route coach starts on. Every force stays inspectable.</p>
+    <p class="intro-note">A / D bank · W dive · S or Space flare · <b>Shift / E focus (slow time)</b> · F go limp · gamepad works<br>Skim the rock, shave the columns, ride thermals, grab embers: every feat feeds a ×8 chain. Impacts break it.<br>Route coach starts on. Every force stays inspectable.</p>
     <a href="docs/FIELD-GUIDE.html" target="_blank" rel="noopener" class="text-link">Open the pilot’s field guide <span>↗</span></a>
   </main>
 
@@ -43,6 +43,7 @@
     <div class="lab-scroll">
       <p class="panel-copy">SI units. Changes act live and mark the run as an experiment. Coefficients are plausible game models, uncalibrated to a real suit.</p>
       <div class="preset-row"><button data-preset="calm" class="active">Still air</button><button data-preset="crosswind">Crosswind</button><button data-preset="storm">Gust garden</button></div>
+      <label class="check-row"><input type="checkbox" id="arcade" checked><span>Arcade world <small>Rock columns, construct light-bars, thermal updrafts and embers. Off = the 1.0 observatory cave.</small></span></label>
       <label class="check-row"><input type="checkbox" id="assistance" checked><span>Route coach <small>Limited bank / pitch guidance; manual input takes priority.</small></span></label>
       <div id="physics-controls"></div>
       <div class="section-label">PRESENTATION</div>
@@ -61,15 +62,18 @@
   <section id="flight-hud" class="flight-hud" aria-label="Live flight instruments">
     <div class="speed-block"><span class="instrument-label">AIR SPEED</span><div><strong id="airspeed">39</strong><span>M/S</span></div><div class="speed-meter"><i id="speed-bar"></i></div><span id="flight-state">READY TO DESCEND</span></div>
     <div class="instruments"><div><span>SINK RATE</span><strong id="sink">14.1<small>M/S</small></strong></div><div><span>LIFT / DRAG</span><strong id="ld">2.59<small>RATIO</small></strong></div><div><span>WIND</span><strong id="wind">0.0<small>M/S</small></strong></div><div><span>WALL CLEARANCE</span><strong id="clearance">30.0<small>M</small></strong></div></div>
-    <div class="score-block"><div><span>GATES</span><strong id="gates">00 / 15</strong></div><div><span>FLIGHT SCORE</span><strong id="score">00000</strong></div><span id="run-label">LOCAL FLIGHT · COACH ON</span></div>
+    <div class="score-block"><div><span>EMBERS</span><strong id="embers">0 / 0</strong></div><div><span>GATES</span><strong id="gates">00 / 15</strong></div><div><span>FLIGHT SCORE</span><strong id="score">00000</strong></div><span id="run-label">LOCAL FLIGHT · COACH ON</span><span class="best-line">BEST <b id="best">—</b></span></div>
   </section>
+  <div id="combo-wrap" class="combo-wrap" aria-live="off"><strong id="combo">×1</strong><span>CHAIN</span><div class="combo-track"><i id="combo-bar"></i></div></div>
+  <div id="focus-wrap" class="focus-wrap"><span>FOCUS <kbd>SHIFT</kbd></span><div class="focus-track"><i id="focus-bar"></i></div></div>
+  <div id="pops" class="pops" aria-hidden="true"></div>
   <div id="reticle" class="reticle" aria-hidden="true"><i></i><span>FLY THE GAP</span></div>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
   <div id="paused" class="pause-card" hidden><span class="eyebrow">THE WORLD CAN WAIT</span><h2>Suspended.</h2><p>Adjust the experiment, or return to the descent.</p><button id="resume" class="primary">Resume flight ↘</button></div>
-  <div id="result" class="pause-card" hidden><span class="eyebrow" id="result-tag">FLIGHT COMPLETE</span><h2 id="result-title">Into the light.</h2><p id="result-copy"></p><button id="again" class="primary">Another line ↘</button><button id="result-export">Export flight CSV ↗</button></div>
+  <div id="result" class="pause-card" hidden><span class="eyebrow" id="result-tag">FLIGHT COMPLETE</span><div id="result-medal" class="medal"></div><h2 id="result-title">Into the light.</h2><p id="result-copy"></p><button id="again" class="primary">Another line ↘</button><button id="result-export">Export flight CSV ↗</button></div>
   <div id="fatal" class="pause-card" role="alert" hidden><h2>Renderer unavailable.</h2><p id="fatal-copy"></p><a class="text-link" href="docs/FIELD-GUIDE.html">Read the field guide ↗</a></div>
   <nav class="play-tools" aria-label="Flight controls"><button id="pause">Pause <kbd>P</kbd></button><button id="reset">New run <kbd>R</kbd></button><button id="cycle-camera">Camera <kbd>C</kbd></button><button id="limp">Go limp <kbd>F</kbd></button><a href="docs/FIELD-GUIDE.html" target="_blank" rel="noopener">Guide ↗</a></nav>
-  <div class="touch-controls" aria-label="Touch flight controls"><div><button data-hold="left" aria-label="Bank left">◀</button><button data-hold="right" aria-label="Bank right">▶</button></div><div><button data-hold="dive">DIVE</button><button data-hold="flare">FLARE</button></div></div>
+  <div class="touch-controls" aria-label="Touch flight controls"><div><button data-hold="left" aria-label="Bank left">◀</button><button data-hold="right" aria-label="Bank right">▶</button></div><div><button data-hold="dive">DIVE</button><button data-hold="focus">FOCUS</button><button data-hold="flare">FLARE</button></div></div>
   <footer><span>PROCEDURAL WORLDS / OBSERVABLE PHYSICS</span><span id="perf">INITIALIZING THE DESCENT</span></footer>
   <script type="module" src="src/app.js"></script>
 </body>

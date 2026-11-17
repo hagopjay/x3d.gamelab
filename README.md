@@ -1,6 +1,6 @@
 # x3d.gamelab · Flop Lab
 
-**Separate experiment: [CHASM · Wingsuit Observatory](cavern/)** — a 3D wingsuit ragdoll descent through natural and virtual caverns, with air-relative flight physics, live wind controls, telemetry and an X3D snapshot exporter. See [launch and model notes](cavern/README.md).
+**Separate experiment: [CHASM · Wingsuit Observatory](cavern/)** — a 3D wingsuit ragdoll descent through natural and virtual caverns, with air-relative flight physics, live wind controls, telemetry and an X3D snapshot exporter. **2.0** adds an arcade layer (columns, thermals, embers, chains, focus time, ghost) and a new FX layer; frozen builds at [cavern/releases/](cavern/releases/). See [launch and model notes](cavern/README.md) and [ARCADE.md](cavern/docs/ARCADE.md).
 
 **Play: https://hagopjay.github.io/x3d.gamelab/** (frozen builds under `releases/<version>/`, never overwritten)
 

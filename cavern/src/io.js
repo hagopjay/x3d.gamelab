@@ -1,6 +1,6 @@
 // The export boundary is deliberately smaller than the simulation.
 // X3D contains a static inspectable scene, not an equivalent flight engine.
-import {DEFAULTS, course, gates, wallPoint} from './physics.js';
+import {DEFAULTS, course, gates, wallPoint, obstacles, thermals, embers} from './physics.js';
 
 export const SETTINGS_SCHEMA = 'chasm-settings/1';
 export const LIMITS = Object.freeze({
@@ -14,6 +14,7 @@ export function settingsObject(params, presentation={}) {
   const physics={};
   for(const key of Object.keys(LIMITS)) physics[key]=params[key] ?? DEFAULTS[key];
   physics.assistance=!!params.assistance;
+  physics.arcade=!!params.arcade;
   return {schema:SETTINGS_SCHEMA,physics,presentation:{theme:presentation.theme||'hybrid',quality:presentation.quality||'balanced',camera:presentation.camera||'chase'}};
 }
 export function parseSettings(text) {
@@ -21,12 +22,15 @@ export function parseSettings(text) {
   const v=JSON.parse(text);
   if(!v||v.schema!==SETTINGS_SCHEMA||!v.physics||!v.presentation) throw Error('Expected a CHASM settings file, schema '+SETTINGS_SCHEMA+'.');
   const keys=(o,allowed)=>{if(!o||typeof o!=='object'||Array.isArray(o)||Object.keys(o).some(k=>!allowed.includes(k))) throw Error('Unknown or malformed settings field.');};
-  keys(v,['schema','physics','presentation']); keys(v.physics,[...Object.keys(LIMITS),'assistance']); keys(v.presentation,Object.keys(enums));
+  keys(v,['schema','physics','presentation']); keys(v.physics,[...Object.keys(LIMITS),'assistance','arcade']); keys(v.presentation,Object.keys(enums));
   for(const [key,[min,max]] of Object.entries(LIMITS)) {
     const n=v.physics[key];
     if(typeof n!=='number'||!Number.isFinite(n)||n<min||n>max) throw Error('Out-of-range physics value: '+key);
   }
   if(typeof v.physics.assistance!=='boolean') throw Error('Route coach must be true or false.');
+  // CHASM 2.0: optional arcade world flag; 1.0 files (without it) still load.
+  if('arcade' in v.physics&&typeof v.physics.arcade!=='boolean') throw Error('Arcade world must be true or false.');
+  if(!('arcade' in v.physics)) v.physics.arcade=false;
   for(const [key,opts] of Object.entries(enums)) if(!opts.includes(v.presentation[key])) throw Error('Unknown presentation value: '+key);
   return v;
 }
@@ -65,6 +69,15 @@ export function toX3D(sim,{theme='hybrid',quality='balanced',camera='chase'}={})
     for(let k=0;k<64;k++){const a=k/64*Math.PI*2;cp.push(g.x+g.radius*Math.cos(a),g.y+g.radius*Math.sin(a),g.z);ci.push(k);}
     ci.push(0,-1);
     out.push(`<Shape DEF="Gate_${i}"><Appearance><Material emissiveColor="0.25 0.9 0.8"/></Appearance><IndexedLineSet coordIndex="${ci.join(' ')}"><Coordinate point="${vec(cp)}"/></IndexedLineSet></Shape>`);
+  }
+  if(sim.params?.arcade){
+    // CHASM 2.0 arcade world: the same capsules the solver collides with, the
+    // thermal columns (prescribed updraft, documented in metadata) and embers.
+    out.push(`<Group DEF="ArcadeWorld"><MetadataString containerField="metadata" name="chasm-arcade" value='"capsule colliders: pillar and bar; thermals: Gaussian updraft w*exp(-r2/R2); embers: pickup radius 2.8 m"'/>`);
+    for(const o of obstacles)out.push(cylinder(o.a,o.b,o.r,o.kind==='pillar'?'0.2 0.24 0.22':'1 0.25 0.7').replace('<Transform ',`<Transform DEF="Obstacle_${o.index}" `));
+    for(const t of thermals){const c=course(t.z);out.push(`<Transform DEF="Thermal_${t.index}" translation="${vec([t.x,c.y,t.z])}"><Shape><Appearance><Material diffuseColor="1 0.6 0.3" emissiveColor="0.5 0.25 0.1" transparency="0.8"/></Appearance><Cylinder radius="${n(t.R)}" height="${n(c.ry*2)}" top="false" bottom="false" solid="false"/></Shape></Transform>`);}
+    out.push(`<Shape DEF="Embers"><Appearance><Material emissiveColor="1 0.75 0.3"/></Appearance><PointSet><Coordinate point="${vec(embers.flatMap(e=>e.p))}"/></PointSet></Shape>`);
+    out.push('</Group>');
   }
   for(let i=0;i<pilot.length;i++){
     const particle=pilot[i],position=particle.p;
