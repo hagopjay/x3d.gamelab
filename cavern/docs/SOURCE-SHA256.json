@@ -1,0 +1,146 @@
+{
+  "base": "e93e3db3d9b67dfaee1c626ee21efe86fd23d8d7",
+  "scope": "CHASM source and reports, excluding this inventory",
+  "files": [
+    {
+      "path": "cavern/.gitignore",
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    {
+      "path": "cavern/README.md",
+      "bytes": 5796,
+      "sha256": "a944fd69eeb0175c58b6f6d9f4a52a00df70762115780c661e936d40eb26597b"
+    },
+    {
+      "path": "cavern/docs/APPLY-PATCH.md",
+      "bytes": 1011,
+      "sha256": "73b63a0a6c24ce4effe63f686d9aa88d7319e8512de27652afa7973c4a547538"
+    },
+    {
+      "path": "cavern/docs/CHASM-snapshot.x3d",
+      "bytes": 657503,
+      "sha256": "2f549494c4081e614448d5984bf4f615960d41aa1e7a3daf1b5f26d5a17d2070"
+    },
+    {
+      "path": "cavern/docs/FIELD-GUIDE.html",
+      "bytes": 26566,
+      "sha256": "0a5ad7549038822eedc5f95d0c7e5d99cd53fda2a1cae0602c5043956977c5d5"
+    },
+    {
+      "path": "cavern/docs/FOLDBACK.md",
+      "bytes": 14281,
+      "sha256": "9cfcfaff3f6ba814af9c73e961eee8c00904f0866853805af4404daf7394f28e"
+    },
+    {
+      "path": "cavern/docs/PHYSICS.md",
+      "bytes": 6562,
+      "sha256": "6a25cc6b46c3a58b9e5b63cdc5b770123db912ac57488eae8364ac051108691a"
+    },
+    {
+      "path": "cavern/docs/PR.md",
+      "bytes": 2758,
+      "sha256": "af423f034fe06fa0784f0171997284d0a753aac7556b69034434c885c5bf20e4"
+    },
+    {
+      "path": "cavern/docs/VALIDATION.md",
+      "bytes": 4685,
+      "sha256": "0c915595a226ed8a8483b136c5ad5b7e80c957140bd47ad04194e7296063c6ae"
+    },
+    {
+      "path": "cavern/docs/X3D-CONTRACT.md",
+      "bytes": 2441,
+      "sha256": "7d63194de65a4b9c5db949b20bbe59317e82d0146ad7520a14d2fea8a8398833"
+    },
+    {
+      "path": "cavern/docs/browser-validation.json",
+      "bytes": 2736,
+      "sha256": "4ab6ac0a019c82bec95614f1c2b4e0ee65c359ff133363a51b54211c4677edfb"
+    },
+    {
+      "path": "cavern/docs/node-validation.log",
+      "bytes": 18238,
+      "sha256": "dd4e2a27f7242ff1cd3be8242d70d4d3c6bafbe37b698640502328189ec5b56b"
+    },
+    {
+      "path": "cavern/docs/standalone-validation.json",
+      "bytes": 172,
+      "sha256": "33e145f3dcf9d0d300a2808191cdde2cec9c807dae2437d0d6577d1608a72779"
+    },
+    {
+      "path": "cavern/docs/x3d-validation.json",
+      "bytes": 19354,
+      "sha256": "ec26475fc481cfb4e295ed3e75c6f9c4d938e2514baf150d1a066ea1a0d21b24"
+    },
+    {
+      "path": "cavern/index.html",
+      "bytes": 8496,
+      "sha256": "3dc0dabd249fc106311404c21b7c84628f3e4151a82743dafb786f9aab02076c"
+    },
+    {
+      "path": "cavern/run.bat",
+      "bytes": 126,
+      "sha256": "c9ccde1c85ce4a561296e4a81ede4fdca988f263e925e9d7f30d14c7336a3cdf"
+    },
+    {
+      "path": "cavern/run.sh",
+      "bytes": 84,
+      "sha256": "ebf55f2f97744dc9a529dd11ecd7355e6c67e6863d218df25b2b4b38f9395a28"
+    },
+    {
+      "path": "cavern/serve.py",
+      "bytes": 1468,
+      "sha256": "1b3f5080c5f712cad5a80c9e6789123f3988bd999907bb566dc89e6d81ee9f71"
+    },
+    {
+      "path": "cavern/src/app.js",
+      "bytes": 15140,
+      "sha256": "8b77de7f5199f426968d04d82736e50209132de2750575e231ff8c3eb38fcedd"
+    },
+    {
+      "path": "cavern/src/clock.js",
+      "bytes": 854,
+      "sha256": "699fe349c6046ddc0299b87289ab1d21b4514cb88accc244d49b1735a7cb119f"
+    },
+    {
+      "path": "cavern/src/io.js",
+      "bytes": 8775,
+      "sha256": "8c15fe4f102d1e6681f8f4a6a4b18dcc7012c26f26b48e70044769146b450722"
+    },
+    {
+      "path": "cavern/src/physics.js",
+      "bytes": 16567,
+      "sha256": "2414b41821cf94a359e07f0f8f546a26061a8d5d8f7f7c8c76e5186ccd3fd3e1"
+    },
+    {
+      "path": "cavern/src/view.js",
+      "bytes": 32965,
+      "sha256": "c0182491a1aef600dd0165402018e104ddc7d67837c79797500ebab7a5b35cd8"
+    },
+    {
+      "path": "cavern/style.css",
+      "bytes": 12678,
+      "sha256": "1e0c2c1f4cbc81cf8149ee0ca4fcdcb7f203c6e737fa9e7a5b9213d17d9a5e81"
+    },
+    {
+      "path": "cavern/test/browser.py",
+      "bytes": 8632,
+      "sha256": "67605922f544f65709d12f7af4198a6a7ad80434ceaa0587ac80764d8579abc6"
+    },
+    {
+      "path": "cavern/test/io-clock.test.mjs",
+      "bytes": 3473,
+      "sha256": "06dabc1b709a8d675c0aa02d79ebb6a93d637423b9d656e68159ea8445ed11a4"
+    },
+    {
+      "path": "cavern/test/physics.test.mjs",
+      "bytes": 8002,
+      "sha256": "927eb3b1abff285cd41e1278c660c226371234f39cd89e8c7cc1c4b26947d397"
+    },
+    {
+      "path": "cavern/tools/build-standalone.mjs",
+      "bytes": 3518,
+      "sha256": "9314787ed5c2a85605c68d1019ddd6b88226b1ed56b22297464f8c1bec8a07f8"
+    }
+  ]
+}

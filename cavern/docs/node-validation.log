@@ -1,0 +1,218 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> flop-lab@0.3.0 test
+> node test/core.test.mjs && node test/gates.test.mjs && node test/expedition.test.mjs && node test/expedition-integration.test.mjs && node test/x3dio.test.mjs && node test/x3dio-dom.test.mjs && node test/recipes.test.mjs && node test/new-controls.state-scope.mjs && node test/showtime.test.mjs && node test/showtime-integration.test.mjs && node test/carnival.test.mjs && node test/presentation.test.mjs && npm run test:cavern
+
+PASS free fall vs discrete solution: err 2.19e-10 m
+PASS 6-crate stack after 6 s: top y 5.480 (5.5), x 0.0000, a 0.0000
+PASS stack at rest: max speed 0.0000 m/s
+PASS incline 20 deg, mu 0.6: moved 0.000 m, expected stick
+PASS incline 40 deg, mu 0.6: moved 8.321 m, expected slide
+PASS   sliding speed 10.70 vs Coulomb 10.99 m/s
+PASS pendulum period 1.9900 s vs 1.9875 s
+PASS bounce e=0.5 from 3 m: peak 0.742 m (0.75)
+PASS two runs of the default level agree on all 300 step hashes (42358dcd)
+  default level: 267 bodies, 192 joints, 30 zones, 1.05 ms/step, pairs 248 of 32385 brute, contacts 229
+PASS no NaN after 5 s
+PASS nothing fell out of the world ()
+PASS dominoes still standing untouched after 5 s
+PASS crate tower still standing after 5 s
+PASS poked dominoes: 12 of 13 fell
+   {"fallen":12,"of":13,"moved_m":0.94,"energy_start_J":-646.4,"energy_end_J":-793.5,"peak_kinetic_J":13.6,"bodies":45,"ms_per_step":0,"hash":"0c4a92d7"}
+  cannon 25 deg: dist 23.04 air 0.78 peak 2.66 miss 3.59 goal false bonks 6 score 905 0.51 ms/step bodies 35
+  cannon 35 deg: dist 26.06 air 1.28 peak 5.06 miss 0.29 goal true bonks 3 score 1334 0.237 ms/step bodies 35
+  cannon 45 deg: dist 26.25 air 1.57 peak 7.87 miss 2.21 goal false bonks 3 score 947 0.182 ms/step bodies 35
+  cannon 55 deg: dist 13.35 air 1.28 peak 7.79 miss 11.51 goal false bonks 7 score 899 0.241 ms/step bodies 35
+  cannon 65 deg: dist 26.46 air 2.07 peak 13.39 miss 0.93 goal true bonks 3 score 1468 0.21 ms/step bodies 35
+PASS cannon sweep ran
+PASS hero stands on the floor: y 0.697
+PASS full jump apex 3.08 m (3.12 ideal)
+PASS run speed 8.60 m/s (8.6), went 3.91 m
+PASS F goes limp
+PASS stood up again; stunt {"why":"you let go","seconds":1.38,"distance_m":1.63,"airtime_s":0.18,"spins":0.14,"bonks":1,"hardest_hit_mps":7.8,"peak_speed_mps":9.9,"peak_height_m":0,"hit_goal":false,"goal_miss_m":163.98,"score":141}
+PASS ragdoll has 10 hinges
+PASS kernel recompiled from its own source gives the same hash after 120 steps
+
+all passed
+PASS free fall vs the discrete solution: 2.19e-10 m (limit 1e-9 m)
+PASS 10-crate stack, max tilt in 10 s: 0.00000 rad (limit 0.002 rad)
+PASS 10-crate stack, max speed: 0.058 m/s (limit 0.2 m/s)
+PASS 5 x 5 crate wall, max tilt: 0.00000 rad (limit 0.002 rad)
+PASS one crate at rest, sideways creep in 6 s: 0.00000 m (limit 0.002 m)
+CAUGHT control face contacts solved one corner at a time (10-stack tilt, rad; judged by the gate's own limit): 0.0148 (must exceed 0.002)
+INFO   friction at each corner, 10-stack tilt: 0.0000 rad, max speed 0.058 m/s
+INFO   friction inside the push pass, corner by corner: one crate crept 0.2807 m in 6 s
+PASS incline 20 deg, mu 0.6 sticks (moved in 2 s): 0.0001 m (limit 0.2 m)
+PASS incline 40 deg, speed after 2 s vs Coulomb: 0.0037 relative (limit 0.05 relative)
+CAUGHT control friction 0 on the 20 deg incline (moved, m): 19.30 (must exceed 1)
+PASS pendulum period vs 2 pi sqrt(I / m g L): 0.00054 relative (limit 0.01 relative)
+CAUGHT control hinge solved along the error direction only (period error, relative): 0.0295 (must exceed 0.02)
+PASS bounce e = 0.5 from 3 m, peak vs e^2 h: 0.0079 m (limit 0.08 m)
+PASS bounce e = 0.1 (the default material) from 3 m, peak (e^2 h = 0.03): 0.0247 m (limit 0.1 m)
+CAUGHT control restitution raised by 0.3 (peak error against 0.75 m): 1.161 (must exceed 0.08)
+PASS sweep and prune vs brute force over 300 frames, pairs missed (1206 tests a frame against 35245): 0 (limit 0)
+CAUGHT control list sorted by centre instead of left edge (pairs missed in 300 frames): 4835 (must exceed 1)
+PASS two runs of a cannon shot on the default level, differing step hashes of 300: 0 (limit 0)
+CAUGHT control friction changed by 1e-7 (differing step hashes of 300): 287 (must exceed 1)
+
+12 of 12 gates pass; 6 of 6 controls caught
+PASS Free play is the default and every physically available chapter remains selectable
+PASS Starting an unavailable chapter refuses without mutating a live run
+PASS Upright airtime is not First Flight; one actual ragdoll airtime threshold completes
+PASS Completed stunts can satisfy airtime but a stale earlier result is not borrowed
+PASS Air Mail requires finishing the current distant flop, not passing through 12 m in midair
+PASS Collector resets fresh stars and cannot complete with one
+PASS Contact Sprint requires the destination region, not a distant x coordinate
+PASS Wind Rider requires limp contact with a fan before height qualifies
+PASS An old peak before fan entry and a separate later flop cannot satisfy the wind rise
+PASS A generic goal hit cannot satisfy Cannon Post without a cannon launch
+PASS Respawning fails the attempt and a retry resets its death baseline
+PASS Challenge expiry is explicit and no progress earns a timeout medal
+PASS Modified runs complete only as practice and retry does not erase the modification
+PASS A nonfinite airtime cannot earn a medal and a ghost from another course is not shown
+PASS Dash requires one airborne unhooked hero and normalizes diagonal speed
+PASS Disabled dash and malformed timing cannot silently alter the hero
+PASS Visual trace storage is bounded and restarting can follow a prior eligible completion
+17 expedition controls passed
+PASS neutral expedition hooks preserve every stock physical pose hash for an identical model and input trace
+PASS grounded dash is refused and one airborne burst changes the real trajectory against a disabled twin
+PASS two real dash input traces repeat on this host while the changed-input twin diverges
+PASS First Flight accepts actual ragdoll airtime while upright flight is a negative control
+PASS First Flight is achievable from the stock spawn by an ordinary jump then flop input trace
+PASS real respawn fails the attempt and retry establishes a fresh death baseline
+PASS real completed ragdoll objective remains practice after invalidation and retry
+PASS actual mission-start lifecycle rebuilds physical state while free exploration preserves it
+8 real-Sim integration controls passed
+PASS Default scene still exports byte-for-byte to its retained X3D
+PASS Stats distinguish actual model counts and centre-only bounds
+PASS Negative dimensions are refused before world construction
+PASS NaN position cannot be repaired silently by JSON cloning
+PASS Infinity material friction is refused
+PASS Negative restitution is refused
+PASS Fractional substep counts are refused
+PASS Unknown physics settings cannot disappear during export
+PASS Body velocity fields cannot disappear during export
+PASS Duplicate global body identifiers are refused
+PASS Body IDs colliding with derived visual IDs are refused
+PASS Reserved world DEF cannot become a body
+PASS Dangling joint endpoint is refused
+PASS Self-joint is refused
+PASS Reversed hinge bounds are refused
+PASS Region size is validated, not just body poses
+PASS Water allocation is bounded independently of source body count
+PASS Pill sampling expansion is bounded independently of body count
+PASS Unknown kinematic channel is refused
+PASS Invalid prefab density is refused before expansion
+PASS Unknown prefab parameter is diagnosed, not discarded
+PASS Part updates reject out-of-range cannon power
+PASS Finite source-size overflow is refused
+PASS external DTD preflight is refused
+PASS entity subset preflight is refused
+PASS CDATA payload preflight is refused
+PASS processing instruction preflight is refused
+PASS MFString retains quotes and backslashes rather than deleting them
+PASS MFString prototype keys and repeated keys are refused
+PASS Small compliance survives the serializer
+
+30 X3D bridge controls passed. DOM and schema checks remain separate.
+PASS XML DOM canonical round trip: museum
+PASS XML DOM canonical round trip: skyline
+PASS XML DOM canonical round trip: cascade
+PASS XML DOM canonical round trip: tidal
+PASS XML DOM canonical round trip: carnival
+PASS refused negative geometry; repaired twin retained
+PASS refused nonfinite gravity; repaired twin retained
+PASS refused unsupported 3D orientation; repaired twin retained
+PASS refused entity declaration; repaired twin retained
+PASS refused script capability; repaired twin retained
+15 XML DOM controls pass (linkedom; not a browser render test).
+PASS recipe museum: 255 bodies, 180 fixed steps finite
+PASS recipe skyline: 40 bodies, 180 fixed steps finite
+PASS recipe cascade: 105 bodies, 180 fixed steps finite
+PASS recipe tidal: 86 bodies, 180 fixed steps finite
+PASS recipe carnival: 100 bodies, 180 fixed steps finite
+Recipe checks: 33 pass. No renderer or cross-host result claimed.
+PASS pose_hash_does_not_identify_velocity: {"beforeSame":true,"nextDiffers":true,"ax":0,"bx":0.016666666666666673}
+PASS review_snapshot_is_not_a_full_world_checkpoint: {"restored":true,"restoredTime":0,"retainedFrame":1}
+PASS hidden_rng_requires_its_own_checkpoint_or_input_trace: {"beforeSame":true,"restored":true,"missedRandomState":true,"repairedTwinMatches":true}
+PASS the judge enforces fixed-step units at both hooks
+PASS neutral judge hooks preserve 240 real stock physics poses and source bytes
+PASS upright puff input refuses and neither consumes charges nor invents tricks
+PASS one real ragdoll puff gives every active limb exactly the same bounded delta-v
+PASS cooldown and three-charge ceiling refuse repeated input within a real flop
+PASS enabled puff changes a real trajectory while its disabled twin stays unpowered
+PASS malformed direction falls back to a finite default without mutating the source level
+PASS pending style banks only after actual recovery and duplicate observation cannot pay twice
+PASS respawn forfeits pending style instead of awarding a recovery or sticker
+PASS rebuild retains session records but refuses an old completed result and starts no chain
+PASS new flop reload is explicit arcade behavior, with a fresh chain multiplier
+PASS a bare dash key does not pretend a dash ability actually fired
+PASS nonfinite observed angle forfeits the pending chain instead of masking NaN as zero
+PASS repeating the same observed hit cannot farm points and fresh zero-speed hits refuse
+PASS old bank never fulfills a newly selected spotlight and prompts are open in any order
+PASS event sequence survives reset and returned summaries cannot mutate internal sets
+16 Showtime controls passed
+PASS neutral Show observations preserve every physical pose for a stock input trace
+PASS hero puff is refused while a legal ragdoll puff applies equal finite velocity increments
+PASS continuous puff requests consume at most three charges in one actual airborne stunt
+PASS same-host puff input traces repeat while the disabled-mechanic twin diverges
+PASS an ordinary stock-spawn jump-flop-three-puff-recover trace banks a scored stunt
+PASS live recovery banks an observed chain exactly once; respawn forfeits its unbanked twin
+PASS a fresh run retains earned session records but drops pending score and ignores stale finished stunts
+PASS the actual app tick guard prevents all live work during pose review, with a live-path sentinel control
+{"schema":"floplab.showtime-integration/1","node":"v24.22.1","source_sha256":{"core.js":"687e14cc771972714923434238edad1e3ea8bd9bf0bc406f945ac12fc80ff7ea","level.js":"1543362d05034c2220c2c131e5cdcd2769509e072105e61ea4d673e9eec5e20c","game.js":"dbdd37b0cf2673bd01bc81dc30a89b350c0e5829d8736902b3c775ade447732f","showtime.js":"c9cee4d26befc5728cd9ee6d35bd933c8ea4dfb2382bf78bdf8236f4b3f0e517"},"passed":8,"checks":[{"name":"neutral Show observations preserve every physical pose for a stock input trace","pass":true,"observed":{"checkedTicks":300,"poseTraceSha256":"4af7a7b5b0b1f3f78233cac078bf9c01e21aa55066a6974c76527c6a4169f6a5","sourceUnchanged":true}},{"name":"hero puff is refused while a legal ragdoll puff applies equal finite velocity increments","pass":true,"observed":{"ragBodies":11,"deltaVelocity":{"x":4.242640687119285,"y":4.242640687119285},"puffsLeft":2,"inactiveHeroUnchanged":true,"sourceUnchanged":true}},{"name":"continuous puff requests consume at most three charges in one actual airborne stunt","pass":true,"observed":{"liveTicks":100,"acceptedPuffs":3,"remainingCharges":0}},{"name":"same-host puff input traces repeat while the disabled-mechanic twin diverges","pass":true,"observed":{"checkedTicks":150,"acceptedPuffs":3,"changedMechanicDifferingTicks":148,"inputSha256":"9457f1cb83d9844664296acbcee192ccca9504d0e2099e34a3716ff84c471c66","poseTraceSha256":"b83e38bf225226e5e996452a088f2ebf618dd849531417f2e267c7dc05482643","scope":"One local Node executor and a controlled high-altitude starting pose; not browser feel or cross-host evidence."}},{"name":"an ordinary stock-spawn jump-flop-three-puff-recover trace banks a scored stunt","pass":true,"observed":{"initial":{"x":-2,"y":0.72},"acceptedPuffs":3,"banked":510,"best":510,"lastBank":{"score":510,"combo":6,"multiplier":2,"air":1.167,"distance":0.137,"flips":0,"bonks":0,"puffs":3,"variety":3,"families":["flop","puff","air"],"serial":1},"input":{"settleTicks":40,"jumpOnTick":41,"flopOnTick":46,"upwardPuffsOnTicks":[48,72,96],"recoverOnTick":116},"scope":"One ordinary stock-spawn fixed-step input trace; no manual teleport or initial pose modification."}},{"name":"live recovery banks an observed chain exactly once; respawn forfeits its unbanked twin","pass":true,"observed":{"recoveredBank":310,"duplicatedObservationBank":310,"respawnBank":0,"respawnChain":0}},{"name":"a fresh run retains earned session records but drops pending score and ignores stale finished stunts","pass":true,"observed":{"preservedBank":310,"preservedBest":310,"pendingAfterReset":0,"staleResultBank":0}},{"name":"the actual app tick guard prevents all live work during pose review, with a live-path sentinel control","pass":true,"observed":{"reviewRefusesLiveWorldAccess":true,"livePathSentinelCaught":true,"appSourceSha256":"bcc1a5f8e0d0e560905c2e7718d5ba9ab1056460527d46d67b1c26bb000f36e2","scope":"Actual extracted app function with a sentinel Sim accessor, not a browser or full app initialization."}}],"limitations":["Real Sim in one Node host; fixtures deliberately name controlled initial states.","No renderer, audio, player amusement, physical actuator model, browser input timing or formal Loom acceptance was measured."]}
+8 real-Sim Showtime integration controls passed
+PASS previous source identity: museum
+PASS previous source identity: skyline
+PASS previous source identity: cascade
+PASS previous source identity: tidal
+PASS same carnival seed repeats; another seed changes retained source
+PASS carnival stays inside existing supported-prefab and expansion budgets
+PASS normal carnival spawn settles safely through 300 real ticks
+PASS ordinary jump/flop is feasible from carnival spawn without puffs
+PASS three legal puffs extend that real trajectory against its no-puff twin
+PASS carnival puff trace repeats on this executor with identical inputs
+PASS ordinary movement crosses the first bowling checkpoint without a respawn
+PASS unmodified cannon aim hits the forgiving target across four declared seeds
+PASS early fire is refused and cannot claim that cannon target
+Carnival controls: 13 pass. Real local Sim/input traces; no renderer, cross-host or human-fun result claimed.
+PASS all mascot outfits draw without changing physical/source state (Canvas stubs)
+PASS refused costume and reduced-motion/review expression boundaries
+PASS duplicate event does not repeat celebration; sound remains opt-in
+PASS long celebration stream retains bounded work
+PASS explicit and OS reduced-motion preserve readable cards without confetti
+PASS pause/background prevent stale celebration backlog
+PASS explicit audio activation and mute/volume boundaries (audio stubs)
+PASS disposal prevents new feedback
+PASS actual mission DOM binding fills a completed 0.8-second bar
+PASS actual Showtime DOM binding fills and accurately labels a 0.35-second goal
+10 presentation controls pass. DOM, Canvas and audio adapters are stubs; native pixels/audio require separate observation.
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> flop-lab@0.3.0 test:cavern
+> node --test cavern/test/*.test.mjs
+
+✔ settings roundtrip rejects unknown, missing, out-of-range and oversized values before mutation (4.642593ms)
+✔ clock gives identical fixed ticks across monitor frame schedules and explicitly counts overload (127.371733ms)
+✔ X3D snapshot is deterministic, finite, disabled, explicit metadata and changes with live pose (145.958156ms)
+✔ telemetry carries SI values and sampled parameters across a live change (4.287767ms)
+✔ aerodynamic forces scale with dynamic pressure and oppose relative flow (2.059574ms)
+✔ zero air density yields ballistic COM with no hidden propulsion (94.284524ms)
+✔ XPBD internal pose and link forces preserve COM momentum without external force (36.288647ms)
+✔ fixed input sequence is deterministic and reset clears run events (149.16146ms)
+✔ high speed swept wall contact stays finite and inside the collision shell (12.309024ms)
+✔ swept gate crossing awards once, and reversing cannot farm the same gate (56.57403ms)
+✔ still air coefficients predict a finite plausible uncalibrated trim oracle (0.446771ms)
+✔ manual bank and pitch override their individual assistance channels (37.282095ms)
+✔ combined extreme control settings remain finite within the advertised envelope (686.194375ms)
+✔ calm guided flight completes the entire route with gates and no impact (2070.039986ms)
+✔ shared natural wall stays bounded and its exact points match collision zero (5.035152ms)
+✔ wall gradient matches numerical surface gradient through blends and lobes (0.60925ms)
+ℹ tests 16
+ℹ suites 0
+ℹ pass 16
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3303.76735

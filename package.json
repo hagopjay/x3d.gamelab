@@ -8,11 +8,13 @@
   "scripts": {
     "build": "node build.mjs",
     "vendor": "node tools/vendor_three.mjs",
-    "test": "node test/core.test.mjs && node test/gates.test.mjs && node test/expedition.test.mjs && node test/expedition-integration.test.mjs && node test/x3dio.test.mjs && node test/x3dio-dom.test.mjs && node test/recipes.test.mjs && node test/new-controls.state-scope.mjs && node test/showtime.test.mjs && node test/showtime-integration.test.mjs && node test/carnival.test.mjs && node test/presentation.test.mjs",
+    "test": "node test/core.test.mjs && node test/gates.test.mjs && node test/expedition.test.mjs && node test/expedition-integration.test.mjs && node test/x3dio.test.mjs && node test/x3dio-dom.test.mjs && node test/recipes.test.mjs && node test/new-controls.state-scope.mjs && node test/showtime.test.mjs && node test/showtime-integration.test.mjs && node test/carnival.test.mjs && node test/presentation.test.mjs && npm run test:cavern",
     "test:browser": "node build.mjs && node test/gates.test.mjs && node test/browser.mjs && node test/browser.mjs --noeval",
     "record": "node tools/run_record.mjs",
     "export:levels": "node tools/export_levels.mjs",
-    "test:pages": "node test/pages-smoke.mjs"
+    "test:pages": "node test/pages-smoke.mjs",
+    "test:cavern": "node --test cavern/test/*.test.mjs",
+    "test:cavern:browser": "python3 cavern/test/browser.py"
   },
   "devDependencies": {
     "linkedom": "0.18.12",

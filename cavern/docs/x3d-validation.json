@@ -1,0 +1,424 @@
+{
+  "schema": "flop-lab.pinned-x3d-validation/1",
+  "created_utc": "2026-11-17T19:59:26.188344+00:00",
+  "status": "pass",
+  "input_cap_bytes": 2097152,
+  "instrument": {
+    "repository": "https://github.com/hagopjay/x3d_mcp",
+    "commit": "b5c9956917714747fe1d034c729612e99b0f09c9",
+    "origin_sha256": "e7587506b4b4e3455f358451e104ad8d8e31514e6f8e687bdb2b9be5b170c349",
+    "files_sha256": {
+      "LICENSE": "d44b2af6013aee7eed3775190b1d15f9594cd70bafc2ce87e393747222271649",
+      "src/validation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "src/validation/listvalues.py": "9b5ad661b0f12efedb0cde0c6b7c64cd1ffc5b70a667f7c2b48ebdd02d473cf4",
+      "src/validation/oversize.py": "8e80d694d7f63daf0ccf6fb149c7a71b7857f7642b8a1477eecf9760c946bd23",
+      "src/validation/profile.py": "fc716b832034d728892cabf9960a4de22e9a4d58bde1833af25f0eee71f8f5f6",
+      "src/validation/schemas/X3dUnifiedObjectModel-4.0.xml": "7e426a238656c21a4a444b989276494329da363625c36f0a719b15d89416bee3",
+      "src/validation/schemas/X3dUnifiedObjectModel-4.1.xml": "4fc10e8e15c0d6cf2a916e4f59b815b110104aa7ea734dc6afea9458095c792b",
+      "src/validation/schemas/x3d-4.0-Web3dExtensionsPrivate.xsd": "27657b812199aee0155be97d74cbd78181464f558013c18fb19fa4cf3a5d6b9e",
+      "src/validation/schemas/x3d-4.0-Web3dExtensionsPublic.xsd": "7a61432dcf1fef3bd568e555b9bb1d18c08fadc88ddb9a438bc001a9e048a169",
+      "src/validation/schemas/x3d-4.0.xsd": "0509fa5bd6016a0b9104ced3c91d6585c8073041f79b8c3f9758748d131b5192",
+      "src/validation/schemas/x3d-4.1-Web3dExtensionsPrivate.xsd": "784ee866095751eb9ca559837defdf3c1b9980ce66623aaa7635ced6a0d645d3",
+      "src/validation/schemas/x3d-4.1-Web3dExtensionsPublic.xsd": "8643f06321b8152e481f30c03c1c9f00efd61b6ea3806c5e752289092c3289a2",
+      "src/validation/schemas/x3d-4.1.xsd": "1a7935caa7e6a63de2b275968bdc48da2f34124a43acb7b293674c3d16646a85",
+      "src/validation/schemas/xmldsig-core-schema.xsd": "35cf8197da812c85e40d57891b35c94187569ed474a2dac813ce5090dafcd35c",
+      "src/validation/semantic.py": "8ede23abf7a6dfaf2a35c8ce8975c67f5c4d2ed3b1d715e9d0aaca363fc0d73f",
+      "src/validation/splat_arrays.py": "88692a03a68df7688e49cd73b5c2d4715c252d4fc6a350c9d11200d9c6c44160",
+      "src/validation/validate.py": "bbae82aa7ae930acf1e632bec18b785ab106cdf63757077304b4718377870959",
+      "src/x3d_utils/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "src/x3d_utils/x3duom.py": "51489acdbf6a6ee8f9f023aa21f5141d528e7afc235af8e4ab8467f8d3bc228c"
+    },
+    "adapter_sha256": "6ce3add1a2f89efb2d81b0f24d1d7ee358d594ddaf8c080fe89ca9979c241b45",
+    "invocation": [
+      "validation.validate.validate_xml(version=\"4.0\")",
+      "validation.semantic.semantic_diagnostics"
+    ],
+    "xsd_version": "4.0",
+    "semantic_vocabulary_version": "4.1",
+    "runtime": {
+      "python": "3.12.14",
+      "lxml": "6.1.1.0",
+      "libxml2": "2.14.6",
+      "jsonschema": "4.26.0"
+    },
+    "identity_sha256": "81991edd4bdd4a02af5c2cefdc884a04ebfcdc0c002c543e6cf0c2dc1f1bcb4b"
+  },
+  "instrument_problem": null,
+  "files": [
+    {
+      "path": "cavern/docs/CHASM-snapshot.x3d",
+      "bytes": 657503,
+      "candidate_sha256": "2f549494c4081e614448d5984bf4f615960d41aa1e7a3daf1b5f26d5a17d2070",
+      "status": "pass",
+      "xsd": {
+        "status": "pass",
+        "schema_version": "4.0",
+        "findings": [],
+        "notes": []
+      },
+      "semantic": {
+        "status": "pass",
+        "findings": [
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Cavern' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Cavern"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_0' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_0"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_1' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_1"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_10' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_10"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_11' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_11"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_12' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_12"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_13' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_13"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_14' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_14"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_2' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_2"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_3' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_3"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_4' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_4"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_5' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_5"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_6' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_6"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_7' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_7"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_8' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_8"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Gate_9' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "Gate_9"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='ParticleSnapshot' (RigidBodyCollection) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBodyCollection",
+            "def_name": "ParticleSnapshot"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_0' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_0"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_1' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_1"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_10' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_10"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_11' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_11"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_12' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_12"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_13' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_13"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_2' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_2"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_3' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_3"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_4' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_4"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_5' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_5"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_6' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_6"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_7' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_7"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_8' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_8"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='Particle_9' (RigidBody) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "RigidBody",
+            "def_name": "Particle_9"
+          },
+          {
+            "level": "info",
+            "check": "unused-def",
+            "message": "DEF='SuitMembranes' (Shape) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+            "node_tag": "Shape",
+            "def_name": "SuitMembranes"
+          }
+        ]
+      },
+      "instrument_sha256": "81991edd4bdd4a02af5c2cefdc884a04ebfcdc0c002c543e6cf0c2dc1f1bcb4b"
+    }
+  ],
+  "controls": [
+    {
+      "id": "numeric_radius",
+      "expected_stage": "xsd",
+      "positive": {
+        "bytes": 421,
+        "candidate_sha256": "2653cff5db5f8dfc35c29b3b14ad48fd427a51b3b2d8d2d05978f07ff8bc959a",
+        "status": "pass",
+        "xsd": {
+          "status": "pass",
+          "schema_version": "4.0",
+          "findings": [],
+          "notes": []
+        },
+        "semantic": {
+          "status": "pass",
+          "findings": [
+            {
+              "level": "info",
+              "check": "shape-no-appearance",
+              "message": "Shape has no Appearance. The shape will render with a default white material.",
+              "node_tag": "Shape",
+              "def_name": ""
+            }
+          ]
+        },
+        "instrument_sha256": "81991edd4bdd4a02af5c2cefdc884a04ebfcdc0c002c543e6cf0c2dc1f1bcb4b"
+      },
+      "negative": {
+        "bytes": 426,
+        "candidate_sha256": "3f2b22c28b4fa8624ebb3c92d4ac0739e1e65ea4facfa8efdae084b524ed6ff2",
+        "status": "fail",
+        "xsd": {
+          "status": "fail",
+          "schema_version": "4.0",
+          "findings": [
+            "Line 1: Element 'Sphere', attribute 'radius': 'broken' is not a valid value of the local atomic type."
+          ],
+          "notes": []
+        },
+        "semantic": {
+          "status": "pass",
+          "findings": [
+            {
+              "level": "info",
+              "check": "shape-no-appearance",
+              "message": "Shape has no Appearance. The shape will render with a default white material.",
+              "node_tag": "Shape",
+              "def_name": ""
+            }
+          ]
+        },
+        "instrument_sha256": "81991edd4bdd4a02af5c2cefdc884a04ebfcdc0c002c543e6cf0c2dc1f1bcb4b"
+      },
+      "caught": true
+    },
+    {
+      "id": "missing_route_source",
+      "expected_stage": "semantic",
+      "positive": {
+        "bytes": 421,
+        "candidate_sha256": "2653cff5db5f8dfc35c29b3b14ad48fd427a51b3b2d8d2d05978f07ff8bc959a",
+        "status": "pass",
+        "xsd": {
+          "status": "pass",
+          "schema_version": "4.0",
+          "findings": [],
+          "notes": []
+        },
+        "semantic": {
+          "status": "pass",
+          "findings": [
+            {
+              "level": "info",
+              "check": "shape-no-appearance",
+              "message": "Shape has no Appearance. The shape will render with a default white material.",
+              "node_tag": "Shape",
+              "def_name": ""
+            }
+          ]
+        },
+        "instrument_sha256": "81991edd4bdd4a02af5c2cefdc884a04ebfcdc0c002c543e6cf0c2dc1f1bcb4b"
+      },
+      "negative": {
+        "bytes": 428,
+        "candidate_sha256": "ed497cbf00e025811c50c8a2ca4b4e5021b21f9b59fb255f262264ae517c70e8",
+        "status": "fail",
+        "xsd": {
+          "status": "pass",
+          "schema_version": "4.0",
+          "findings": [],
+          "notes": []
+        },
+        "semantic": {
+          "status": "fail",
+          "findings": [
+            {
+              "level": "info",
+              "check": "unused-def",
+              "message": "DEF='Clock' (TimeSensor) is defined but never USE'd and no ROUTE, IMPORT or EXPORT names it. This is fine if you reference it externally (Script, SAI).",
+              "node_tag": "TimeSensor",
+              "def_name": "Clock"
+            },
+            {
+              "level": "info",
+              "check": "shape-no-appearance",
+              "message": "Shape has no Appearance. The shape will render with a default white material.",
+              "node_tag": "Shape",
+              "def_name": ""
+            },
+            {
+              "level": "error",
+              "check": "route-missing-from-node",
+              "message": "ROUTE fromNode='MissingClock' not found. Available DEFs: Clock, Slide, Target.",
+              "node_tag": "",
+              "def_name": ""
+            }
+          ]
+        },
+        "instrument_sha256": "81991edd4bdd4a02af5c2cefdc884a04ebfcdc0c002c543e6cf0c2dc1f1bcb4b"
+      },
+      "caught": true
+    }
+  ],
+  "limitations": [
+    "Actual direct calls to pinned x3d_mcp functions; no network MCP transport or model call.",
+    "XSD 4.0 and the upstream default semantic vocabulary 4.1 are deliberately recorded separately.",
+    "The optional fixed X3D DOCTYPE is retained; arbitrary DTD/entity declarations are refused before upstream parsing.",
+    "Per-file XSD/implemented semantic checks do not establish Flop Lab mapping fidelity, physical validity, visible rendering or GPU performance.",
+    "Imported custom flop metadata and the XPBD bridge require separate application controls.",
+    "This unsigned local report is not a formal Loom acceptance receipt or publisher authentication."
+  ],
+  "report_sha256": "0ab3e28d2ff6b9dee1dff3a36486c267abe6f8960740af3be240b268877f193b"
+}

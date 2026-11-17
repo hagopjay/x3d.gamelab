@@ -1,0 +1,127 @@
+{
+  "status": "pass",
+  "browser": "153.0.8010.0",
+  "scope": "Headless Chromium / SwiftShader on one host; functional rendering evidence, not hardware GPU FPS. Model fast-forward used for virtual region.",
+  "checks": [
+    {
+      "name": "intro and WebGL scene visible",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pause stops physical time",
+      "pass": true,
+      "detail": 0.2666666666666667
+    },
+    {
+      "name": "wind slider changes authoritative force model",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "assistance switch reaches simulation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "closing lab returns flight focus",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "limp button releases active pose",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "shortcuts work while control button focused",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "keyboard resumes from button focus",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "camera helmet",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "camera orbit",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "camera chase",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "settings download preserves schema",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "live X3D download is complete",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "CSV has SI header and samples",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "virtual course section renders",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "cinematic graphics renders",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "390px layout has no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "touch flight controls visible",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "phone laboratory scrolls inside screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "zero browser errors and HTTP failures",
+      "pass": true,
+      "detail": {
+        "errors": [],
+        "http": []
+      }
+    }
+  ],
+  "stats": {
+    "render": {
+      "drawCalls": 76,
+      "triangles": 21619,
+      "lines": 3773,
+      "geometries": 46,
+      "textures": 15,
+      "pixelRatio": 1,
+      "quality": "low",
+      "camera": "chase",
+      "bloom": false
+    },
+    "physicsMs": 0.3455437662611512,
+    "renderSubmitMs": 1.8753658439854384,
+    "droppedWallTime": 1.0999999999999999,
+    "simTime": 29.799999999999997
+  }
+}
